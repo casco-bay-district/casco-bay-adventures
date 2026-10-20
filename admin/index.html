@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Casco Bay Adventures — Admin</title>
+<link rel="stylesheet" href="../vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/admin.css">
+<script src="../vendor/leaflet/leaflet.js"></script>
+<script type="module" src="../js/admin/main.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">Casco Bay Adventures</span>
+    <span class="brand-sub">Admin · Add or edit a location</span>
+  </div>
+  <button type="button" class="logout-btn" id="logoutBtn" style="display:none;">Log out</button>
+</header>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="loginScreen">
+  <div class="login-card">
+    <h2>Volunteer sign-in</h2>
+    <p>Enter your name and the district passphrase. Your name is saved in the change log next to everything you add or edit.</p>
+    <div class="field">
+      <label for="nameInput">Your name</label>
+      <input type="text" id="nameInput" autocomplete="name" />
+    </div>
+    <div class="field">
+      <label for="passcodeInput">Passphrase</label>
+      <input type="password" id="passcodeInput" autocomplete="off" />
+    </div>
+    <button type="button" class="primary-btn" id="loginBtn">Sign in</button>
+    <div class="error-msg" id="loginError" role="alert"></div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app">
+  <div class="main">
+    <div class="form-col">
+
+      <div class="mode-tabs" id="modeTabs">
+        <button class="mode-tab active" type="button" data-mode="add">Add new</button>
+        <button class="mode-tab" type="button" data-mode="browse">Browse &amp; edit</button>
+      </div>
+
+      <div class="section" id="browseSection" style="display:none;">
+        <h3>Existing locations</h3>
+        <p class="hint">Click a location to review or edit it. Locations with a missing or invalid map pin are listed too, so you can fix them.</p>
+        <div class="field">
+          <label class="visually-hidden" for="browseFilter">Filter locations</label>
+          <input type="text" id="browseFilter" placeholder="Filter by name or town..." />
+        </div>
+        <div class="search-results" id="browseList"></div>
+      </div>
+
+      <div id="addressSearchSection" class="section">
+        <h3>Find an address</h3>
+        <p class="hint">Search for a park, camp, base, or address. Picking a result fills in the fields below; you can still review and edit everything before saving.</p>
+        <div class="search-row">
+          <label class="visually-hidden" for="searchInput">Place or address</label>
+          <input type="text" id="searchInput" placeholder="e.g. Philmont Scout Ranch" />
+          <button type="button" class="search-btn" id="searchBtn">Search</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+        <div class="search-note">Search uses free OpenStreetMap data. If a place doesn't show up, enter it manually and set the pin on the map.</div>
+      </div>
+
+      <div id="detailsWrap">
+        <div class="section">
+          <h3>Location details</h3>
+          <div class="hint" id="lastUpdatedHint" style="display:none;"></div>
+          <div class="field"><label for="fName">Location Name *</label><input type="text" id="fName" /></div>
+          <div class="row-2">
+            <div class="field"><label for="fTown">Town *</label><input type="text" id="fTown" /></div>
+            <div class="field"><label for="fState">State / Province</label><input type="text" id="fState" placeholder="ME" /></div>
+          </div>
+          <div class="field"><label for="fAddress">Address</label><input type="text" id="fAddress" placeholder="Street address" /></div>
+          <div class="row-2">
+            <div class="field"><label for="fPhone">Phone</label><input type="text" id="fPhone" placeholder="(207) 555-0123" /></div>
+            <div class="field"><label for="fEmail">Email</label><input type="email" id="fEmail" placeholder="contact@example.org" /></div>
+          </div>
+          <div class="field"><label for="fWebsite">Website</label><input type="text" id="fWebsite" placeholder="example.org" /></div>
+          <div class="row-2">
+            <div class="field"><label for="fLat">Latitude *</label><input type="text" id="fLat" inputmode="decimal" /></div>
+            <div class="field"><label for="fLng">Longitude *</label><input type="text" id="fLng" inputmode="decimal" /></div>
+          </div>
+          <div class="field"><label for="fDesc">Description</label><textarea id="fDesc" rows="3"></textarea></div>
+        </div>
+
+        <div class="section">
+          <h3>Program Level</h3>
+          <div class="checkbox-grid" id="programGrid"></div>
+          <div class="add-other"><input type="text" id="programOther" placeholder="Add another program level" aria-label="Add another program level" /><button type="button" data-group="program">Add</button></div>
+        </div>
+
+        <div class="section">
+          <h3>Adventure Type</h3>
+          <div class="checkbox-grid" id="typeGrid"></div>
+          <div class="add-other"><input type="text" id="typeOther" placeholder="Add another adventure type" aria-label="Add another adventure type" /><button type="button" data-group="type">Add</button></div>
+        </div>
+
+        <div class="section">
+          <h3>Amenities</h3>
+          <div class="checkbox-grid" id="amenityGrid"></div>
+          <div class="add-other"><input type="text" id="amenityOther" placeholder="Add another amenity" aria-label="Add another amenity" /><button type="button" data-group="amenity">Add</button></div>
+        </div>
+
+        <div class="section">
+          <h3>Primary type for map icon</h3>
+          <p class="hint">Pick which checked Adventure Type should decide the pin icon.</p>
+          <div class="field"><label class="visually-hidden" for="fPrimaryType">Primary type</label>
+            <select id="fPrimaryType"><option value="">Check an Adventure Type first</option></select></div>
+        </div>
+      </div>
+
+      <div class="save-row" id="saveRow">
+        <button type="button" class="primary-btn" id="saveBtn">Save location</button>
+        <button type="button" class="secondary-btn" id="clearBtn">Clear form</button>
+        <button type="button" class="secondary-btn" id="cancelEditBtn" style="display:none;">Cancel</button>
+        <button type="button" class="danger-btn" id="deleteBtn" style="display:none;">Remove location</button>
+      </div>
+      <div class="status-msg" id="statusMsg" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="map-col">
+      <div id="map"></div>
+      <div class="map-hint">Drag the pin to fine-tune the exact spot, or click anywhere on the map to move it.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
