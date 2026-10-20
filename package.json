@@ -1,0 +1,6 @@
+{
+  "name": "casco-bay-adventures",
+  "private": true,
+  "type": "module",
+  "description": "Scouting adventure locator for Casco Bay District (static site, no build step)."
+}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casco Bay Adventures — Scouting Locations</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.css">
+<link rel="stylesheet" href="vendor/leaflet.markercluster/MarkerCluster.Default.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/public.css">
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/leaflet.markercluster/leaflet.markercluster.js"></script>
+<script type="module" src="js/public/main.js"></script>
+</head>
+<body class="app-public view-list">
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Casco Bay Adventures</span>
+      <span class="brand-sub">Scouting locations from Cumberland County, Maine to High Adventure bases</span>
+    </div>
+    <div class="topbar-meta">
+      <span class="result-pill" id="dataSourcePill" title="Where the location data came from">Loading…</span>
+      <span class="result-pill" id="resultPill">— adventures</span>
+    </div>
+  </header>
+
+  <nav class="mobile-tabs" aria-label="Switch view">
+    <button type="button" data-view="filters">Filters</button>
+    <button type="button" data-view="list" class="active">List</button>
+    <button type="button" data-view="map">Map</button>
+  </nav>
+
+  <div class="main">
+
+    <aside class="filters" aria-label="Filters">
+      <h1>Narrow your search</h1>
+
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <label class="visually-hidden" for="searchInput">Search by name, town or state</label>
+        <input type="text" id="searchInput" placeholder="Search by name or town…">
+      </div>
+
+      <div class="filter-group" data-group="programs">
+        <button type="button" class="filter-group-head" aria-expanded="true">
+          <span class="filter-group-title">Program Level</span><span class="filter-group-hint">any</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-options" id="opts-programs"></div>
+      </div>
+
+      <div class="filter-group" data-group="types">
+        <button type="button" class="filter-group-head" aria-expanded="true">
+          <span class="filter-group-title">Adventure Type</span><span class="filter-group-hint">any</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-options" id="opts-types"></div>
+      </div>
+
+      <div class="filter-group" data-group="bands">
+        <button type="button" class="filter-group-head" aria-expanded="true">
+          <span class="filter-group-title">Distance</span><span class="filter-group-hint">any</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-options" id="opts-bands"></div>
+      </div>
+
+      <div class="filter-group" data-group="amenities">
+        <button type="button" class="filter-group-head" aria-expanded="true">
+          <span class="filter-group-title">Amenities</span><span class="filter-group-hint">all</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="filter-options" id="opts-amenities"></div>
+      </div>
+
+      <button type="button" class="reset-btn" id="resetBtn">Reset all filters</button>
+    </aside>
+
+    <section class="results-col" aria-label="Results">
+      <div class="results-head" id="resultsHead">
+        <h2>Adventures</h2>
+        <p id="resultsSub" aria-live="polite">Loading locations…</p>
+      </div>
+      <div class="source-banner" id="sourceBanner"></div>
+
+      <div class="results-list" id="resultsList"></div>
+
+      <div class="pager" id="pager" style="display:none;">
+        <button class="pager-btn" id="pagerPrev" type="button">&lsaquo; Prev</button>
+        <span class="pager-label" id="pagerLabel">Page 1 of 1</span>
+        <button class="pager-btn" id="pagerNext" type="button">Next &rsaquo;</button>
+      </div>
+
+      <div class="detail" id="detailView">
+        <button type="button" class="back-btn" id="backBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          Back to results
+        </button>
+        <div class="detail-hero" id="detailHero" aria-hidden="true"></div>
+        <div class="detail-body" id="detailBody"></div>
+      </div>
+    </section>
+
+    <div class="map-col">
+      <div id="map" role="application" aria-label="Map of adventure locations">
+        <div class="map-fallback-note">Map imagery isn't loading — pins and filters still work.</div>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
